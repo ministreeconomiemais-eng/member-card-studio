@@ -1,3 +1,5 @@
+import { firebaseProjectId, loadFirebaseState, saveFirebaseState } from "./firebase-service.js";
+
 const STORAGE_KEY = "member-card-studio:v1";
 const SESSION_KEY = "member-card-studio:session";
 const SUPER_ADMIN_PIN = "0000";
@@ -96,6 +98,13 @@ let activeFace = "front";
 let previewMemberId = state.members[0]?.id || "";
 let editingMemberId = "";
 let generatedSelection = new Set(state.members.slice(0, 4).map((m) => m.id));
+let cloudReady = false;
+let cloudSaveTimer = null;
+let cloudSync = {
+  label: "Firebase",
+  status: "Connexion...",
+  detail: `Projet ${firebaseProjectId}`
+};
 
 const app = document.querySelector("#app");
 
@@ -804,6 +813,67 @@ function applyTemplatePalette(tpl, palette = "photo") {
 
 function saveState() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  scheduleCloudSave();
+}
+
+function cloudStatusBadge() {
+  const tone = cloudSync.status === "Synchronise" ? "ok" : cloudSync.status === "Erreur" ? "danger" : "pending";
+  return `<div class="cloud-status ${tone}">
+    <span>${esc(cloudSync.label)}: ${esc(cloudSync.status)}</span>
+    <small>${esc(cloudSync.detail || "")}</small>
+  </div>`;
+}
+
+function scheduleCloudSave() {
+  if (!cloudReady) return;
+  clearTimeout(cloudSaveTimer);
+  cloudSaveTimer = setTimeout(async () => {
+    try {
+      cloudSync = { label: "Firebase", status: "Enregistrement...", detail: "Sauvegarde Firestore en cours" };
+      await saveFirebaseState(state);
+      cloudSync = { label: "Firebase", status: "Synchronise", detail: "Donnees sauvegardees dans Firestore" };
+      if (session) render();
+    } catch (error) {
+      cloudSync = {
+        label: "Firebase",
+        status: "Erreur",
+        detail: "Verifie les regles Firestore ou l'authentification"
+      };
+      console.warn("Firebase save failed", error);
+      if (session) render();
+    }
+  }, 700);
+}
+
+async function syncFirebaseState() {
+  try {
+    cloudSync = { label: "Firebase", status: "Lecture...", detail: "Connexion a Firestore" };
+    const remoteState = await loadFirebaseState();
+    if (remoteState) {
+      state = migrateState(remoteState);
+      activeOrgId = state.organizations[0]?.id || "";
+      selectedTemplateId = state.templates[0]?.id || "";
+      previewMemberId = state.members[0]?.id || "";
+      generatedSelection = new Set(state.members.slice(0, 4).map((m) => m.id));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      cloudSync = { label: "Firebase", status: "Synchronise", detail: "Donnees chargees depuis Firestore" };
+    } else {
+      cloudSync = { label: "Firebase", status: "Initialisation...", detail: "Premiere sauvegarde Firestore" };
+      await saveFirebaseState(state);
+      cloudSync = { label: "Firebase", status: "Synchronise", detail: "Donnees locales envoyees vers Firestore" };
+    }
+    cloudReady = true;
+    render();
+  } catch (error) {
+    cloudReady = false;
+    cloudSync = {
+      label: "Firebase",
+      status: "Erreur",
+      detail: "L'application reste en mode local pour le moment"
+    };
+    console.warn("Firebase sync failed", error);
+    render();
+  }
 }
 
 function loadSession() {
@@ -961,6 +1031,7 @@ function renderLogin() {
           <h1>Connexion securisee</h1>
           <p>Choisis le type d'acces. Le super admin gere tout le systeme. Un admin organisation ne voit que son organisation.</p>
         </div>
+        ${cloudStatusBadge()}
         <div class="login-mode">
           <button type="button" class="${loginMode === "organization" ? "active" : ""}" data-login-mode="organization">Organisation</button>
           <button type="button" class="${loginMode === "superadmin" ? "active" : ""}" data-login-mode="superadmin">Super admin</button>
@@ -1037,6 +1108,7 @@ function renderDashboard() {
       <div class="panel">
         <h2>Etat rapide</h2>
         <div class="status-list" style="margin-top:.8rem">
+          <div class="status-row"><span>Cloud</span><strong>${esc(cloudSync.status)}</strong></div>
           <div class="status-row"><span>Organisation</span><strong>${esc(org?.type || "")}</strong></div>
           <div class="status-row"><span>Admin</span><strong>${esc(org?.adminName || "")}</strong></div>
           <div class="status-row"><span>Modele par defaut</span><strong>${esc(templateName(org?.defaultTemplateId))}</strong></div>
@@ -2493,3 +2565,4 @@ function setField(form, name, value) {
 }
 
 render();
+syncFirebaseState();

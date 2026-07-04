@@ -834,3 +834,36 @@ tr:last-child td {
 .print-only {
   display: none;
 }
+
+.cloud-status {
+  border: 1px solid #dbe3ef;
+  border-radius: 8px;
+  display: grid;
+  gap: .15rem;
+  padding: .65rem .8rem;
+}
+
+.cloud-status span {
+  color: #0f172a;
+  font-weight: 800;
+}
+
+.cloud-status small {
+  color: #64748b;
+  font-weight: 700;
+}
+
+.cloud-status.ok {
+  background: #ecfdf5;
+  border-color: #86efac;
+}
+
+.cloud-status.pending {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+}
+
+.cloud-status.danger {
+  background: #fff7ed;
+  border-color: #fdba74;
+}
