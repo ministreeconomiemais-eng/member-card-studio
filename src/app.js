@@ -1667,11 +1667,12 @@ function elementContent(item, mem) {
 function scheduleTextFit() {
   requestAnimationFrame(() => {
     fitCardTextElements();
-    requestAnimationFrame(fitCardTextElements);
+    requestAnimationFrame(() => fitCardTextElements());
   });
 }
 
 function fitCardTextElements(root = document) {
+  if (!root?.querySelectorAll) root = document;
   root.querySelectorAll(".element[data-auto-text='true']").forEach((node) => {
     const max = Number.parseFloat(node.style.fontSize || "12");
     const min = Number.parseFloat(node.dataset.minFont || "4");

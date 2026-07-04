@@ -40,11 +40,12 @@ export async function loadFirebaseState() {
 
 export async function saveFirebaseState(state) {
   await ensureFirebaseAuth();
+  const cleanState = JSON.parse(JSON.stringify(state));
   await setDoc(stateRef, {
     app: "member-card-studio",
     version: 1,
     updatedAt: serverTimestamp(),
-    state
+    state: cleanState
   }, { merge: true });
 }
 
