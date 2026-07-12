@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aperçu des Designs de Cartes - Member Card Studio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { 
+      font-family: 'Inter', sans-serif; 
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+      color: #fff;
+    }
+    .container { max-width: 1200px; margin: 0 auto; }
+    h1 { 
+      text-align: center; 
+      font-size: 2.5rem; 
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #2dd4bf, #22d3ee);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .subtitle { text-align: center; color: #94a3b8; margin-bottom: 50px; }
+    .designs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+      gap: 40px;
+    }
+    .design-card {
+      background: rgba(255,255,255,0.05);
+      border-radius: 20px;
+      padding: 30px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .design-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+    .design-icon {
+      font-size: 2.5rem;
+    }
+    .design-info h2 {
+      font-size: 1.4rem;
+      color: #fff;
+    }
+    .design-info p {
+      color: #94a3b8;
+      font-size: 0.9rem;
+    }
+    .cards-preview {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .card-label {
+      font-size: 0.75rem;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
+    }
+    .card-img {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+      transition: transform 0.3s;
+    }
+    .card-img:hover {
+      transform: scale(1.02);
+    }
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+    .feature {
+      background: rgba(45, 212, 191, 0.15);
+      color: #2dd4bf;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    .info-box {
+      background: rgba(251, 191, 36, 0.1);
+      border: 1px solid rgba(251, 191, 36, 0.3);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 40px;
+    }
+    .info-box h3 {
+      color: #fbbf24;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .info-box p {
+      color: #fde68a;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    .element-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 15px;
+    }
+    .element-item {
+      background: rgba(255,255,255,0.05);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      color: #e2e8f0;
+    }
+    .element-item span {
+      color: #2dd4bf;
+      margin-right: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎨 Designs de Cartes PVC</h1>
+    <p class="subtitle">Member Card Studio - 6 designs professionnels personnalisables</p>
+
+    <div class="info-box">
+      <h3>📋 Informations affichées sur chaque carte</h3>
+      <p>Chaque design inclut tous ces éléments, positionnés de manière optimale :</p>
+      <div class="element-list">
+        <div class="element-item"><span>👤</span> Photo membre</div>
+        <div class="element-item"><span>🏢</span> Logo organisation</div>
+        <div class="element-item"><span>📛</span> Nom complet</div>
+        <div class="element-item"><span>👔</span> Fonction/Rôle</div>
+        <div class="element-item"><span>🔢</span> N° membre</div>
+        <div class="element-item"><span>📂</span> Catégorie</div>
+        <div class="element-item"><span>📅</span> Date naissance</div>
+        <div class="element-item"><span>🌍</span> Nationalité</div>
+        <div class="element-item"><span>📞</span> Téléphone</div>
+        <div class="element-item"><span>📍</span> Adresse</div>
+        <div class="element-item"><span>✍️</span> Signature</div>
+        <div class="element-item"><span>📊</span> Code-barres</div>
+        <div class="element-item"><span>📱</span> QR Code</div>
+        <div class="element-item"><span>⏰</span> Date expiration</div>
+        <div class="element-item"><span>📜</span> Texte juridique</div>
+      </div>
+    </div>
+
+    <div class="designs-grid">
+      <!-- Corporate -->
+      <div class="design-card">
+        <div class="design-header">
+          <span class="design-icon">🏢</span>
+          <div class="design-info">
+            <h2>Corporate Pro</h2>
+            <p>Design professionnel avec barre latérale colorée</p>
+          </div>
+        </div>
+        <div class="cards-preview">
+          <div>
+            <p class="card-label">Face avant</p>
+            <img src="images/card-corporate-front.jpg" alt="Corporate Front" class="card-img">
+          </div>
+          <div>
+            <p class="card-label">Face arrière</p>
+            <img src="images/card-corporate-back.jpg" alt="Corporate Back" class="card-img">
+          </div>
+        </div>
+        <div class="features">
+          <span class="feature">ONG</span>
+          <span class="feature">Entreprises</span>
+          <span class="feature">Associations</span>
+        </div>
+      </div>
+
+      <!-- Elegant -->
+      <div class="design-card">
+        <div class="design-header">
+          <span class="design-icon">✨</span>
+          <div class="design-info">
+            <h2>Élégant Gold</h2>
+            <p>Design luxueux avec bordures dorées</p>
+          </div>
+        </div>
+        <div class="cards-preview">
+          <div>
+            <p class="card-label">Face avant</p>
+            <img src="images/card-elegant-front.jpg" alt="Elegant Front" class="card-img">
+          </div>
+          <div>
+            <p class="card-label">Face arrière</p>
+            <img src="images/card-elegant-back.jpg" alt="Elegant Back" class="card-img">
+          </div>
+        </div>
+        <div class="features">
+          <span class="feature">Églises</span>
+          <span class="feature">VIP</span>
+          <span class="feature">Honorifique</span>
+        </div>
+      </div>
+
+      <!-- Modern -->
+      <div class="design-card">
+        <div class="design-header">
+          <span class="design-icon">🌊</span>
+          <div class="design-info">
+            <h2>Modern Wave</h2>
+            <p>Design contemporain avec formes ondulées</p>
+          </div>
+        </div>
+        <div class="cards-preview">
+          <div>
+            <p class="card-label">Face avant</p>
+            <img src="images/card-modern-front.jpg" alt="Modern Front" class="card-img">
+          </div>
+        </div>
+        <div class="features">
+          <span class="feature">Écoles</span>
+          <span class="feature">Universités</span>
+          <span class="feature">Instituts</span>
+        </div>
+      </div>
+
+      <!-- Classic -->
+      <div class="design-card">
+        <div class="design-header">
+          <span class="design-icon">🏛️</span>
+          <div class="design-info">
+            <h2>Classique Officiel</h2>
+            <p>Design sobre et institutionnel</p>
+          </div>
+        </div>
+        <div class="cards-preview">
+          <div>
+            <p class="card-label">Face avant</p>
+            <img src="images/card-classic-front.jpg" alt="Classic Front" class="card-img">
+          </div>
+        </div>
+        <div class="features">
+          <span class="feature">Partis politiques</span>
+          <span class="feature">Gouvernement</span>
+          <span class="feature">Institutions</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
